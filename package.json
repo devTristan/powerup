@@ -1,6 +1,6 @@
 {
   "name": "powerup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "empower your functions with special abilities",
   "main": "dist/index.js",
   "author": "Tristan Davies <npm@tristan.io>",
