@@ -76,4 +76,4 @@ var add = powerup(
 
 Okay, what just happened? We made the argumentTypes function, which returns a powerup. A powerup is a function that will be called with a `next` function as the first argument, followed by any arguments passed to `add`.
 
-So if you do `add(1, 2)` it will be called with `(next, 1, 2)`. First we check that all arguments are the correct type, and if so, we call `next` with all of the now validated args. So now if you call `add('1', '2')` it will throw an exception instead of returning an invalid answer. Awesome.
+So if you do `add(1, 2)` it will be called with `(next, 1, 2)`. First we check that all arguments are the correct type, and if so, we call `next` with all of the now validated args. So now if you call `add` with a string argument, it will throw an exception instead of returning an invalid answer. Awesome.
