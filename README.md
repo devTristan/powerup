@@ -1,10 +1,10 @@
 # powerup
 a lightweight tool for extending javascript functions
 
-![https://travis-ci.org/devTristan/powerup](https://img.shields.io/travis/devTristan/powerup.svg?style=flat)
-![https://npmjs.org/package/powerup](https://img.shields.io/npm/v/powerup.svg?style=flat)
+[![travis](https://img.shields.io/travis/devTristan/powerup.svg?style=flat)](https://travis-ci.org/devTristan/powerup)
+[![npm](https://img.shields.io/npm/v/powerup.svg?style=flat)](https://npmjs.org/package/powerup)
 
-![https://github.com/feross/standard](https://cdn.rawgit.com/feross/standard/master/badge.svg)
+[![standard](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Simple extensions for better functions
 
