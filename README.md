@@ -37,7 +37,7 @@ function add (a, b) {
 }
 ```
 
-These work fine, but what if somebody passes in a string?
+This works fine, but what if somebody passes in a string?
 
 ```javascript
 > add(5, '6')
