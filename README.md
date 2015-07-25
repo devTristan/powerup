@@ -8,6 +8,8 @@ a lightweight tool for extending javascript functions
 
 ## Simple extensions for better functions
 
+Use it for...
+
 * type checking
 * caching and locking
 * resource cleanup
