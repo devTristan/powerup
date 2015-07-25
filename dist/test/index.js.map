@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/test/index.js"],"names":[],"mappings":";;AAAA,OAAO,CAAC,iBAAiB,CAAC,CAAA;AAC1B,OAAO,CAAC,aAAa,CAAC,CAAA;AACtB,OAAO,CAAC,SAAS,CAAC,CAAA","file":"index.js","sourcesContent":["require('./transpilation')\nrequire('./arguments')\nrequire('./usage')\n"]}
