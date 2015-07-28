@@ -1,7 +1,25 @@
-import test from 'blue-tape'
+import test from 'tape'
 import powerup from '..'
 
-test('property overrides', async function (t) {
+test('argument overrides', function (t) {
+  let modifier = powerup(
+    (next, args) => next(args.concat([1])),
+    (a, b) => a + b
+  )
+  t.equal(modifier(5), 6)
+  t.end()
+})
+
+test('return overrides', function (t) {
+  let modifier = powerup(
+    (next, args) => next(args) * 2,
+    (a, b) => a + b
+  )
+  t.equal(modifier(3, 4), 14)
+  t.end()
+})
+
+test('property overrides', function (t) {
   let sum = powerup({
     params: ['...number']
   }, (...numbers) => numbers.reduce((a, b) => a + b))
@@ -11,9 +29,10 @@ test('property overrides', async function (t) {
   t.equal(sum(5), 5, 'sum(5) should be 5')
   t.equal(sum(0, 0.2, 0.03), 0.23, 'sum(0, 0.2, 0.03) should be 0.23')
   t.equal(sum(1, 2, 3), 6, 'sum(1, 2, 3) should be 6')
+  t.end()
 })
 
-test('prototype overrides', async function (t) {
+test('prototype overrides', function (t) {
   class GaveUp extends Error {
     constructor (workDone) {
       super(`Gave up after getting ${workDone} work done`)
@@ -30,9 +49,9 @@ test('prototype overrides', async function (t) {
     }
   }
 
-  let quitter = function (next, ...args) {
+  let quitter = function (next, args) {
     try {
-      return next(...args)
+      return next(args)
     } catch (err) {
       if (err instanceof GaveUp) {
         return err
@@ -57,4 +76,5 @@ test('prototype overrides', async function (t) {
   let result = me()
   t.ok(result instanceof GaveUp, 'should have given up')
   t.equal(result.workDone, 1, 'should have only done one unit of work')
+  t.end()
 })

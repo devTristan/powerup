@@ -29,5 +29,8 @@
   "pre-commit": [
     "test",
     "lint"
-  ]
+  ],
+  "dependencies": {
+    "tape": "^4.0.1"
+  }
 }

@@ -1,11 +1,11 @@
 import assert from 'assert'
 
-function next (context, calls, index, ...args) {
+function next (context, calls, index, args) {
   let item = calls[index]
   if (index === calls.length - 1) {
     return item.call(context, ...args)
   } else {
-    return item.call(context, next.bind(null, context, calls, index + 1), ...args)
+    return item.call(context, next.bind(null, context, calls, index + 1), args)
   }
 }
 
@@ -19,7 +19,7 @@ export default function create (...powerups) {
 
   let runner = function (...args) {
     let context = Object.assign({}, prototype)
-    return next(context, calls, 0, ...args)
+    return next(context, calls, 0, args)
   }
 
   powerups.forEach((powerup, i) => {

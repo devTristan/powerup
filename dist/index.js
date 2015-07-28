@@ -1,10 +1,12 @@
 'use strict';
 
+var _get = require('babel-runtime/helpers/get')['default'];
+
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
 
 var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
-var _Object$defineProperty = require('babel-runtime/core-js/object/define-property')['default'];
+var _toConsumableArray = require('babel-runtime/helpers/to-consumable-array')['default'];
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
 
@@ -12,39 +14,32 @@ var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
-_Object$defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-
 exports['default'] = create;
 
 var _assert = require('assert');
 
 var _assert2 = _interopRequireDefault(_assert);
 
-function next(context, calls, index) {
-  for (var _len = arguments.length, args = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-    args[_key - 3] = arguments[_key];
-  }
-
+function next(context, calls, index, args) {
   var item = calls[index];
   if (index === calls.length - 1) {
-    return item.call.apply(item, [context].concat(args));
+    return item.call.apply(item, [context].concat(_toConsumableArray(args)));
   } else {
-    return item.call.apply(item, [context, next.bind(null, context, calls, index + 1)].concat(args));
+    return item.call(context, next.bind(null, context, calls, index + 1), args);
   }
 }
 
 var ArgumentError = (function (_Error) {
+  _inherits(ArgumentError, _Error);
+
   function ArgumentError() {
     _classCallCheck(this, ArgumentError);
 
-    if (_Error != null) {
-      _Error.apply(this, arguments);
-    }
+    _get(Object.getPrototypeOf(ArgumentError.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(ArgumentError, _Error);
 
   return ArgumentError;
 })(Error);
@@ -52,8 +47,8 @@ var ArgumentError = (function (_Error) {
 exports.ArgumentError = ArgumentError;
 
 function create() {
-  for (var _len2 = arguments.length, powerups = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    powerups[_key2] = arguments[_key2];
+  for (var _len = arguments.length, powerups = Array(_len), _key = 0; _key < _len; _key++) {
+    powerups[_key] = arguments[_key];
   }
 
   _assert2['default'].notEqual(powerups.length, 0, 'you must provide at least one argument');
@@ -62,12 +57,13 @@ function create() {
   var prototype = {};
 
   var runner = function runner() {
-    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      args[_key3] = arguments[_key3];
+    var context = _Object$assign({}, prototype);
+
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
     }
 
-    var context = _Object$assign({}, prototype);
-    return next.apply(undefined, [context, calls, 0].concat(args));
+    return next(context, calls, 0, args);
   };
 
   powerups.forEach(function (powerup, i) {
