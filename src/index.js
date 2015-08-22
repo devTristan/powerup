@@ -1,4 +1,4 @@
-import assert from 'assert'
+import isPlainObject from './isPlainObject'
 
 function next (context, calls, index, args) {
   let item = calls[index]
@@ -12,27 +12,43 @@ function next (context, calls, index, args) {
 export class ArgumentError extends Error {}
 
 export default function create (...powerups) {
-  assert.notEqual(powerups.length, 0, 'you must provide at least one argument')
+  if (powerups.length === 0) {
+    throw new ArgumentError('you must provide at least one argument')
+  }
 
   let calls = []
   let prototype = {}
 
   let runner = function (...args) {
-    let context = Object.assign({}, prototype)
+    let context = Object.assign({runner: runner}, prototype)
     return next(context, calls, 0, args)
   }
 
   powerups.forEach((powerup, i) => {
+    if (i === 0 && typeof powerup === 'string') {
+      powerup = {displayName: powerup}
+    }
+
     let type = typeof powerup
+    let isObject = isPlainObject(powerup)
 
     if (i === powerups.length - 1) {
       if (type !== 'function') {
         throw new ArgumentError('last argument must be a function')
       }
-    } else {
-      if (type !== 'function' && type !== 'object') {
-        throw new ArgumentError(`argument ${i} must be a function or an object`)
+    } else if (i === 0) {
+      if (type !== 'function' && !isObject && type !== 'string') {
+        throw new ArgumentError(`argument ${i} must be a function, string, or plain object`)
       }
+    } else {
+      if (type !== 'function' && !isObject) {
+        throw new ArgumentError(`argument ${i} must be a function or a plain object`)
+      }
+    }
+
+    if (type === 'string') {
+      powerup = {displayName: powerup}
+      type = 'object'
     }
 
     if (type === 'function') {

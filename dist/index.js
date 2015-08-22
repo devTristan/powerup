@@ -19,9 +19,9 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports['default'] = create;
 
-var _assert = require('assert');
+var _isPlainObject = require('./isPlainObject');
 
-var _assert2 = _interopRequireDefault(_assert);
+var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
 function next(context, calls, index, args) {
   var item = calls[index];
@@ -51,13 +51,15 @@ function create() {
     powerups[_key] = arguments[_key];
   }
 
-  _assert2['default'].notEqual(powerups.length, 0, 'you must provide at least one argument');
+  if (powerups.length === 0) {
+    throw new ArgumentError('you must provide at least one argument');
+  }
 
   var calls = [];
   var prototype = {};
 
   var runner = function runner() {
-    var context = _Object$assign({}, prototype);
+    var context = _Object$assign({ runner: runner }, prototype);
 
     for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
@@ -67,16 +69,30 @@ function create() {
   };
 
   powerups.forEach(function (powerup, i) {
+    if (i === 0 && typeof powerup === 'string') {
+      powerup = { displayName: powerup };
+    }
+
     var type = typeof powerup;
+    var isObject = (0, _isPlainObject2['default'])(powerup);
 
     if (i === powerups.length - 1) {
       if (type !== 'function') {
         throw new ArgumentError('last argument must be a function');
       }
-    } else {
-      if (type !== 'function' && type !== 'object') {
-        throw new ArgumentError('argument ' + i + ' must be a function or an object');
+    } else if (i === 0) {
+      if (type !== 'function' && !isObject && type !== 'string') {
+        throw new ArgumentError('argument ' + i + ' must be a function, string, or plain object');
       }
+    } else {
+      if (type !== 'function' && !isObject) {
+        throw new ArgumentError('argument ' + i + ' must be a function or a plain object');
+      }
+    }
+
+    if (type === 'string') {
+      powerup = { displayName: powerup };
+      type = 'object';
     }
 
     if (type === 'function') {
