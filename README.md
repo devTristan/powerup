@@ -1,4 +1,6 @@
 # powerup
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/devTristan/powerup.svg)](https://greenkeeper.io/)
 a lightweight tool for extending javascript functions
 
 [![travis](https://img.shields.io/travis/devTristan/powerup.svg?style=flat)](https://travis-ci.org/devTristan/powerup)
